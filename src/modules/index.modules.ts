@@ -7,4 +7,4 @@ import { PostModule } from './post/post.module'
 @Module({
      imports: [UserModule, PostModule],
 })
-export class IndexModule {}
+export class IndexModule { }
