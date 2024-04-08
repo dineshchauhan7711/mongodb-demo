@@ -1,7 +1,10 @@
-import { Controller, Get, Res, Req, Post, Body } from '@nestjs/common'
+import { Controller, Get, Res, Req, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common'
 import { Request, Response } from 'express'
-import { UserService } from './user.service'
 
+// Services
+import { UserService } from '../services/user.service'
+// DTO
+import { RegiterUserDTO } from "../dto/user.dto";
 @Controller()
 export class UserController {
      constructor(private userService: UserService) { }
@@ -10,7 +13,9 @@ export class UserController {
           return this.userService.userProfile(req, res)
      }
      @Post('/register-user')
-     registerUser(@Req() req: Request, @Res() res: Response, @Body() body: any): Promise<any> {
+     // @UsePipes(new ValidationPipe())
+
+     registerUser(@Req() req: Request, @Res() res: Response, @Body() body: RegiterUserDTO): Promise<any> {
           return this.userService.userRegister(req, res, body)
      }
 }
