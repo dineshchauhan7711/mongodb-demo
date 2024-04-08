@@ -4,10 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 // Models
-import { User, UserDocument } from "../model/user.model";
-import { Post, PostDocument } from "../model/post.model";
-
-
+import { User, UserDocument } from "../../model/user.model";
+import { Post, PostDocument } from "../../model/post.model"
 @Injectable()
 export class UserService {
      constructor(
@@ -29,11 +27,10 @@ export class UserService {
                return res.send({ success: false, message: error })
           }
      };
-
      async userRegister(req: Request, res: Response, body: any): Promise<any> {
           try {
-               const { lastName, firstName, email, password } = body;
                console.log('body :>> ', body);
+               const { lastName, firstName, email, password } = body;
                const userData = await this.UserModel.create({
                     firstName,
                     lastName,

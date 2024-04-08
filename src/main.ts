@@ -3,8 +3,6 @@ import { AppModule } from './app.module'
 import { config } from './config'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { ValidationPipe } from '@nestjs/common'
-import { ValidationExceptionFilter } from "./validation_error_expection";
 
 async function bootstrap() {
      let app: any
@@ -19,9 +17,8 @@ async function bootstrap() {
      } else {
           app = await NestFactory.create(AppModule)
      }
-     app.useGlobalFilters(new ValidationExceptionFilter());
-     app.useGlobalPipes(new ValidationPipe());
-     app.setGlobalPrefix('api/v1');
+
+     // app.setGlobalPrefix('api/v1');
      // Define the public folder to serve static files
      app.useStaticAssets(resolve(__dirname, '../public'))
 
