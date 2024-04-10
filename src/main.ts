@@ -3,6 +3,7 @@ import { AppModule } from './app.module'
 import { config } from './config'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
+import { BadRequestException, ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
      let app: any
@@ -18,7 +19,21 @@ async function bootstrap() {
           app = await NestFactory.create(AppModule)
      }
 
-     // app.setGlobalPrefix('api/v1');
+     app.useGlobalPipes(
+          new ValidationPipe({
+               exceptionFactory: (errors) => {
+                    const result = errors.map((error) => (
+                         error.constraints[Object.keys(error.constraints)[0]]
+                    ));
+                    return new BadRequestException(result[0]);
+               },
+               stopAtFirstError: true,
+               validateCustomDecorators: true
+          }),
+     );
+
+     app.setGlobalPrefix('api/v1');
+
      // Define the public folder to serve static files
      app.useStaticAssets(resolve(__dirname, '../public'))
 
