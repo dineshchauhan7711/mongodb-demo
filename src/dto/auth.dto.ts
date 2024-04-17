@@ -1,4 +1,4 @@
-import { IsString, MinLength, IsNotEmpty } from 'class-validator';
+import { IsString, MinLength, IsNotEmpty,IsJWT,isJWT } from 'class-validator';
 
 /**
  * Header DTO
@@ -14,6 +14,9 @@ export class HeaderDTO {
      // })
      @IsNotEmpty({
           message: 'Token is required'
+     })
+     @IsJWT({
+          message: "Token is invalid! ========>"
      })
      authorization: string;
 

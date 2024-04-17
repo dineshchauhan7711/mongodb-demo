@@ -8,20 +8,21 @@ import { compareSync } from "bcryptjs";
 
 // Models
 import { User, UserDocument } from "../model/user.model";
-import { Post, PostDocument } from "../model/post.model";
+import { UserSession, UserSessionDocument } from "../model/user_session.model";
 
 
 // Response
 import { successResponse, errorResponse } from '../helper/response';
 
 //Helper
-import { generateJWTToken } from '../helper/jwt';
+import { JwtService } from '../helper/jwt';
 
 @Injectable()
 export class UserService {
      constructor(
           @InjectModel(User.name) private UserModel: Model<UserDocument>,
-          @InjectModel(Post.name) private PostModel: Model<PostDocument>
+          @InjectModel(UserSession.name) private UserSessionModel: Model<UserSessionDocument>,
+          private readonly jwtService: JwtService
 
      ) { }
 
@@ -46,28 +47,33 @@ export class UserService {
                };
 
                // Generate JWT
-               const tokenResponse = generateJWTToken({ payload: { _id: findUser._id, email: findUser.email } });
+               const tokenResponse = await this.jwtService.generateJWTToken({ payload: { _id: findUser._id, email: findUser.email } });
                if (!tokenResponse.success) {
                     return errorResponse(res, 1010)
                };
 
+               // Store token in DB
+               await this.UserSessionModel.create({ token: tokenResponse.token, user_id: findUser._id });
+
+               // Final Response
                let response = {
                     email: findUser.email,
                     token: tokenResponse.token
-               }
+               };
                return successResponse(res, 1002, response)
           } catch (error) {
                console.log('error :>> ', error);
                return errorResponse(res, 9999)
           }
-     }
+     };
 
      /**
       * userProfile
       */
      async userProfile(req: Request, res: Response): Promise<any> {
           try {
-               const userData = await this.UserModel.find({});
+               const { id } = req.user;
+               const userData = await this.UserModel.findOne({ _id: id }, '_id email firstName lastName');
                return successResponse(res, 1003, userData)
           } catch (error) {
                console.log('error :>> ', error);

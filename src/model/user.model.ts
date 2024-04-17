@@ -6,8 +6,6 @@ import { hashSync } from "bcryptjs";
 //Models
 import { Post } from "./post.model";
 
-// Config
-import { config } from "../config";
 
 export type UserDocument = User & Document;
 
@@ -35,7 +33,7 @@ export class User {
 
   @Prop({
     required: true,
-    set: (value: any) => hashSync(value, Number(config.bcryptJsSaltRounds)),
+    set: (value: any) => hashSync(value, 10),
   })
   password: string;
 }

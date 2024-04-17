@@ -6,9 +6,14 @@ import { PostModule } from './post.module';
 
 // //Middleware
 import { AuthMiddleware } from 'src/middleware/auth/auth';
+import { JwtService } from "../helper/jwt";
 
 @Module({
-     imports: [UserModule, PostModule],
+     imports: [
+          UserModule,
+          PostModule
+     ],
+     providers: [JwtService],
 })
 
 export class IndexModule {

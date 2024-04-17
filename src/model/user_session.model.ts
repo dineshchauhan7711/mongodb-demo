@@ -10,7 +10,10 @@ export type UserSessionDocument = UserSession & Document;
           getters: true,
           virtuals: true,
      },
-     timestamps: true,
+     timestamps: {
+          createdAt: 'created_at',
+          updatedAt: 'updated_at'
+     },
 })
 
 export class UserSession {
@@ -18,9 +21,9 @@ export class UserSession {
      @Prop({ required: true })
      token: string;
 
-     @Prop({ type: schema.Types.ObjectId, ref: 'User' })
-     User_id: User;
-   
+     @Prop({ type: schema.Types.ObjectId, ref: 'User', required: true })
+     user_id: User;
+
 }
 
 export const UserSessionSchema = SchemaFactory.createForClass(UserSession);
