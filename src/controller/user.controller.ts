@@ -1,15 +1,26 @@
-import { Controller, Get, Res, Req, Post, Body } from '@nestjs/common';
+import { Controller, Get, Res, Req, Post, Body, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
 
-// Services
+// //Services
 import { UserService } from '../services/user.service';
 
-// DTO
-import { RegisterUserDTO } from "../dto/user.dto";
+// //DTO
+import { RegisterUserDTO, LoginDTO } from "../dto/user.dto";
+
 
 @Controller()
 export class UserController {
-     constructor(private userService: UserService) { }
+     constructor(
+          private userService: UserService
+     ) { }
+
+     /**
+      * Login
+      */
+     @Post('/login')
+     login(@Req() req: Request, @Res() res: Response, @Body() body: LoginDTO): Promise<any> {
+          return this.userService.login(req, res, body)
+     };
 
      /**
       * Get User Profile

@@ -1,7 +1,13 @@
-// user.entity.ts
+// Modules
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { hashSync } from "bcryptjs";
+
+//Models
 import { Post } from "./post.model";
+
+// Config
+import { config } from "../config";
 
 export type UserDocument = User & Document;
 
@@ -24,13 +30,13 @@ export class User {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, set: (value: any) => value.toLowerCase() })
   email: string;
 
-  @Prop({ required: false })
-  clientId?: string;
-
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    set: (value: any) => hashSync(value, Number(config.bcryptJsSaltRounds)),
+  })
   password: string;
 }
 

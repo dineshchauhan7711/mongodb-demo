@@ -3,7 +3,8 @@ import { AppModule } from './app.module'
 import { config } from './config'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { BadRequestException, ValidationPipe } from '@nestjs/common'
+import {  ValidationPipe } from '@nestjs/common';
+import { ValidationExceptionFilter } from "./helper/response";
 
 async function bootstrap() {
      let app: any
@@ -21,17 +22,17 @@ async function bootstrap() {
 
      app.useGlobalPipes(
           new ValidationPipe({
-               exceptionFactory: (errors) => {
-                    const result = errors.map((error) => (
-                         error.constraints[Object.keys(error.constraints)[0]]
-                    ));
-                    return new BadRequestException(result[0]);
-               },
+               // exceptionFactory: (errors) => {
+               //      const result = errors.map((error) => (
+               //           error.constraints[Object.keys(error.constraints)[0]]
+               //      ));
+               //      return { success: false, message: result[0] };
+               // },
                stopAtFirstError: true,
                validateCustomDecorators: true
           }),
      );
-
+     app.useGlobalFilters(new ValidationExceptionFilter())
      app.setGlobalPrefix('api/v1');
 
      // Define the public folder to serve static files

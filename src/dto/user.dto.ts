@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, IsNotEmpty, ValidateIf } from 'class-validator';
+import { IsEmail, IsString, MinLength, IsNotEmpty, ValidateIf, IsObject, IsNotEmptyObject } from 'class-validator';
 
 
 
@@ -26,6 +26,36 @@ export class RegisterUserDTO {
     lastName: number;
 
 
+    /**
+     * email
+     */
+    @IsEmail({},
+        { message: 'Please use valid email' }
+    )
+    @IsNotEmpty({
+        message: 'Email is required'
+    })
+    email: string;
+
+
+    /**
+     * password
+     */
+    @IsString()
+    @MinLength(8, {
+        message: "Please enter minimum 8 character and strong password."
+    })
+    @IsNotEmpty({
+        message: 'Password is required'
+    })
+    password: string;
+
+};
+
+/**
+ * Register User DTO
+ */
+export class LoginDTO {
     /**
      * email
      */
