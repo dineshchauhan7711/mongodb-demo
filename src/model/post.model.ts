@@ -1,8 +1,11 @@
-// user.entity.ts
+// Modules
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { v4 as uuid } from 'uuid';
-import { Type } from 'class-transformer';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+
+//Helpers
+import { getFilePath } from "../helper/file";
+
+// Models
 import { User } from "./user.model";
 
 export type PostDocument = Post & Document;
@@ -12,29 +15,27 @@ export type PostDocument = Post & Document;
           getters: true,
           virtuals: true,
      },
-     timestamps: true,
+     timestamps: true
 })
 
 export class Post {
+
+     @Prop({ required: false, default: null })
+     title: string;
+
+     @Prop({ required: false, default: null })
+     description: string;
+
      @Prop({
-          type: String,
-          unique: true,
-          default: function genUUID() {
-               return uuid();
-          },
+          required: true,
+          get(value: any) {
+               return value ? getFilePath(value, 'post') : null;
+          }
      })
-     userId: string;
+     postUrl: string;
 
-     @Prop({ required: true })
-     post: string;
-
-     @Prop({ required: true })
-     post_type: boolean;
-
-     @Type(() => User)
-     User_id: User;
-
-
+     @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name, required: true })
+     userId: MongooseSchema.Types.ObjectId;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

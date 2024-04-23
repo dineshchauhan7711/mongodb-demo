@@ -16,7 +16,15 @@ import { successResponse, errorResponse } from '../helper/response';
 
 //Helper
 import { JwtService } from '../helper/jwt';
-import { uploadFiles } from "../helper/file";
+import { uploadFiles, deleteFileFromServer } from "../helper/file";
+
+
+interface updateObject {
+     firstName: string,
+     lastName: string,
+     profileImage?: string,
+     password?: string
+};
 
 @Injectable()
 export class UserService {
@@ -54,7 +62,7 @@ export class UserService {
                };
 
                // Store token in DB
-               await this.UserSessionModel.create({ token: tokenResponse.token, user_id: findUser._id });
+               await this.UserSessionModel.create({ token: tokenResponse.token, userId: findUser._id });
 
                // Final Response
                let response = {
@@ -74,7 +82,7 @@ export class UserService {
      async userProfile(req: Request, res: Response): Promise<any> {
           try {
                const { id } = req.user;
-               const userData = await this.UserModel.findOne({ _id: id }, '_id email firstName lastName profile_image');
+               const userData = await this.UserModel.findOne({ _id: id }, '_id email firstName lastName profileImage');
                return successResponse(res, 1003, userData)
           } catch (error) {
                console.log('error :>> ', error);
@@ -111,32 +119,69 @@ export class UserService {
       */
      async updateProfile(req: Request, res: Response, body: any,): Promise<any> {
           try {
-               const { lastName, firstName, password } = body;
+               const { lastName, firstName, currentPassword, newPassword } = body;
                const { user: { id }, files } = req;
-               console.log('files :>> ', files);
+
                // Find user details
-               const findUser = await this.UserModel.findOne({ _id: id });
+               const findUser = await this.UserModel.findOne({ _id: id }).lean({ getter: false });
                if (!findUser) {
                     return errorResponse(res, 1007)
                };
-
-               let updateData: { firstName: string, lastName: string, profile_image?: string } = {
+               let updateData: updateObject = {
                     firstName,
                     lastName,
                };
+
+               // Check password if user want to change password
+               if (newPassword) {
+                    if (!compareSync(currentPassword, findUser.password)) {
+                         return errorResponse(res, 1012)
+                    };
+                    updateData.password = newPassword
+               };
+
+               // Upload profile image
                if (files.length) {
                     const uploadResponse = await uploadFiles(files, 'profileImages');
                     if (!uploadResponse.success) {
                          return errorResponse(res, 1011)
                     };
-                    updateData.profile_image = uploadResponse.fileName
+                    updateData.profileImage = uploadResponse.fileName
                };
 
+               // Update user details
                await this.UserModel.findOneAndUpdate({ _id: id }, updateData);
+
+               // Delete old profile image from server
+               if (files.length) {
+                    if (findUser.profileImage) {
+                         await deleteFileFromServer(findUser.profileImage, 'profileImages');
+                    }
+               };
+
                return successResponse(res, 1008, null)
           } catch (error) {
                console.log('error :>> ', error);
                return errorResponse(res, 9999)
           }
-     }
+     };
+
+     /**
+     * Logout User
+     */
+     async logout(req: Request, res: Response): Promise<any> {
+          try {
+               const headerToken = req.headers.authorization.split(' ')[1];
+
+               // Delete authorization token
+               await this.UserSessionModel.deleteOne({ token: headerToken });
+
+               return successResponse(res, 1006)
+          } catch (error) {
+               console.log('error :>> ', error);
+               return errorResponse(res, 9999)
+          }
+     };
+
+
 }

@@ -16,7 +16,7 @@ export class HeaderDTO {
           message: 'Token is required'
      })
      @IsJWT({
-          message: "Token is invalid! ========>"
+          message: "Token is invalid!"
      })
      authorization: string;
 

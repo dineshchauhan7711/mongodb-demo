@@ -1,5 +1,5 @@
 
-import { createWriteStream, mkdirSync, existsSync } from 'fs';
+import { createWriteStream, mkdirSync, existsSync, unlinkSync } from 'fs';
 import { extname } from "path";
 import { uid } from "rand-token";
 
@@ -13,7 +13,7 @@ export async function uploadFiles(fileObjArray: object, pathFolder: string = "")
      }
      try {
           // Check if the directory exists, and create it if it doesn't
-          let destination: string = './public/images/' + pathFolder;
+          let destination: string = './public/uploads/' + pathFolder;
           if (!existsSync(destination)) {
                mkdirSync(destination, { recursive: true });
           };
@@ -38,5 +38,16 @@ export async function uploadFiles(fileObjArray: object, pathFolder: string = "")
  * Get file path
  */
 export function getFilePath(fileName: string, pathFolder: string = "") {
-     return `${process.env.PROJECT_PATH}/images/${pathFolder}/${fileName}`
+     return `${process.env.PROJECT_PATH}/uploads/${pathFolder}/${fileName}`
+};
+
+/**
+ * Unlink file from server - delete file 
+ */
+export async function deleteFileFromServer(fileName: string, pathFolder: string = "") {
+     let unlinkPath = `public/uploads/${pathFolder}/${fileName}`
+     if (existsSync(unlinkPath)) {
+          unlinkSync(`public/uploads/${pathFolder}/${fileName}`)
+     };
+     return;
 };

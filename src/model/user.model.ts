@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { hashSync } from "bcryptjs";
 
-//Models
+//Helper
 import { getFilePath } from "../helper/file";
 
 export type UserDocument = User & Document;
@@ -13,10 +13,10 @@ export type UserDocument = User & Document;
     getters: true,
     virtuals: true,
   },
-  timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+  toObject: {
+    getters: true,
   },
+  timestamps: true
 })
 
 export class User {
@@ -43,7 +43,7 @@ export class User {
       return value ? getFilePath(value, 'profileImages') : null;
     }
   })
-  profile_image: string
+  profileImage: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -12,6 +12,14 @@ const MESSAGES = {
      '1009': 'Unauthorized user!',
      '1010': 'Error occur in create token!',
      '1011': 'Error occur in uploading file!',
+     '1012': 'Please enter correct password!',
+
+     // Post
+     '2001': 'Post created successfully',
+     '2002': 'Post get successfully',
+     '2003': 'Post delete successfully',
+     '2004': 'Please select post',
+     '2005': 'Post not found',
 
      // Common
      '9000': 'Please Enter Valid data!',

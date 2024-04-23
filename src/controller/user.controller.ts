@@ -1,11 +1,12 @@
-import { Controller, Get, Res, Req, Post, Body, Patch } from '@nestjs/common';
+import { Controller, Get, Res, Req, Post, Body, Patch, Delete } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 // //Services
 import { UserService } from '../services/user.service';
 
 // //DTO
-import { RegisterUserDTO, LoginDTO } from "../dto/user.dto";
+import { RegisterUserDTO, LoginDTO, UpdateUserDTO } from "../dto/user.dto";
+
 
 
 @Controller()
@@ -39,12 +40,19 @@ export class UserController {
      };
 
      /**
-      * Register User
+      * Update User
       */
      @Patch('/update-user')
-     updateUser(@Req() req: Request, @Res() res: Response, @Body() body: RegisterUserDTO,): Promise<any> {
+     updateUser(@Req() req: Request, @Res() res: Response, @Body() body: UpdateUserDTO,): Promise<any> {
           return this.userService.updateProfile(req, res, body)
      };
 
+     /**
+     * Logout User
+     */
+     @Delete('/logout')
+     logout(@Req() req: Request, @Res() res: Response): Promise<any> {
+          return this.userService.logout(req, res)
+     };
 
 }

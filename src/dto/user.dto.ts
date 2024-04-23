@@ -13,7 +13,7 @@ export class RegisterUserDTO {
     @IsNotEmpty({
         message: 'FirstName is required'
     })
-    firstName: number;
+    firstName: string;
 
 
     /**
@@ -23,7 +23,7 @@ export class RegisterUserDTO {
     @IsNotEmpty({
         message: 'LastName is required'
     })
-    lastName: number;
+    lastName: string;
 
 
     /**
@@ -98,27 +98,21 @@ export class UpdateUserDTO {
     lastName?: string;
 
     /**
-     * email
+     * new password
      */
-    email?: string;
-
-    /**
-     * password
-     */
-    password?: string;
-
+    newPassword?: string;
 
     /**
      * current password
      */
     @IsString({
+        message: 'Current password must be a string'
+    })
+    @IsNotEmpty({
         message: 'Current password is required'
     })
-    // @IsNotEmpty({
-    //     message: 'Current password is required'
-    // })
-    @ValidateIf((object, value) => object.password !== undefined)
-    currentPassword: string;
+    @ValidateIf((object, value) => object.newPassword !== undefined)
+    currentPassword?: string;
 
 };
 

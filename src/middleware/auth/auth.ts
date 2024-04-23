@@ -62,7 +62,7 @@ export class AuthMiddleware implements NestMiddleware {
                };
 
                // Find user
-               const findUser = await this.UserModel.findOne({ _id: findAuth.user_id });
+               const findUser = await this.UserModel.findOne({ _id: findAuth.userId });
                if (!findUser) {
                     return errorResponse(res, 1009)
                };

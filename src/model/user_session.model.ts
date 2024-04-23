@@ -10,10 +10,7 @@ export type UserSessionDocument = UserSession & Document;
           getters: true,
           virtuals: true,
      },
-     timestamps: {
-          createdAt: 'created_at',
-          updatedAt: 'updated_at'
-     },
+     timestamps: true
 })
 
 export class UserSession {
@@ -22,7 +19,7 @@ export class UserSession {
      token: string;
 
      @Prop({ type: schema.Types.ObjectId, ref: 'User', required: true })
-     user_id: User;
+     userId: User;
 
 }
 
