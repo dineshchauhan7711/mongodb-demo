@@ -4,8 +4,7 @@ import { Document } from 'mongoose';
 import { hashSync } from "bcryptjs";
 
 //Models
-import { Post } from "./post.model";
-
+import { getFilePath } from "../helper/file";
 
 export type UserDocument = User & Document;
 
@@ -36,13 +35,15 @@ export class User {
     set: (value: any) => hashSync(value, 10),
   })
   password: string;
+
+  @Prop({
+    required: false,
+    default: null,
+    get(value: any) {
+      return value ? getFilePath(value, 'profileImages') : null;
+    }
+  })
+  profile_image: string
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
-
-UserSchema.virtual('Posts', {
-  ref: Post.name,
-  localField: '_id',
-  foreignField: 'user_id',
-  justOne: false,
-});

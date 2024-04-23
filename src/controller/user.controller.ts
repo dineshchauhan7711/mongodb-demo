@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Req, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Res, Req, Post, Body, Patch } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 // //Services
@@ -34,8 +34,16 @@ export class UserController {
       * Register User
       */
      @Post('/register-user')
-     registerUser(@Req() req: Request, @Res() res: Response, @Body() body: RegisterUserDTO): Promise<any> {
-          return this.userService.userRegister(req, res, body)
+     registerUser(@Req() req: Request, @Res() res: Response, @Body() body: RegisterUserDTO,): Promise<any> {
+          return this.userService.userRegister(req, res, body,)
+     };
+
+     /**
+      * Register User
+      */
+     @Patch('/update-user')
+     updateUser(@Req() req: Request, @Res() res: Response, @Body() body: RegisterUserDTO,): Promise<any> {
+          return this.userService.updateProfile(req, res, body)
      };
 
 

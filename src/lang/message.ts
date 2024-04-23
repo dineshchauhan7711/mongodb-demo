@@ -11,6 +11,7 @@ const MESSAGES = {
      '1008': 'Profile updated successfully!',
      '1009': 'Unauthorized user!',
      '1010': 'Error occur in create token!',
+     '1011': 'Error occur in uploading file!',
 
      // Common
      '9000': 'Please Enter Valid data!',

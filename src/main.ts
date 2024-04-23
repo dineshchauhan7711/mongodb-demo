@@ -5,9 +5,14 @@ import { ValidationPipe } from '@nestjs/common';
 import { ValidationExceptionFilter } from "./helper/response";
 import { ConfigService } from '@nestjs/config'
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as multer from 'multer';
+import 'dotenv/config';
 
 async function bootstrap() {
      const app = await NestFactory.create<NestExpressApplication>(AppModule)
+     const configService = app.get(ConfigService);
+
+     // For validation
      app.useGlobalPipes(
           new ValidationPipe({
                stopAtFirstError: true,
@@ -17,18 +22,19 @@ async function bootstrap() {
 
      // Add global filters
      app.useGlobalFilters(new ValidationExceptionFilter());
-     
+
      // Set global prefix
      app.setGlobalPrefix('api/v1');
 
      // Define the public folder to serve static files
-     app.useStaticAssets(resolve(__dirname, '../public'))
+     app.useStaticAssets(resolve(__dirname, '../public'));
 
-     const configService = app.get(ConfigService);
+     app.use(multer().any());
+
      const port = configService.get<number>('port')
      await app.listen(port, () => {
           console.log(`Application is running on: ${port}`)
-     })
+     });
 }
 
 bootstrap()

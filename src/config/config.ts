@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config';
 
 export const config = () => ({
      port: process.env.PORT || 3000,
@@ -13,5 +13,6 @@ export const config = () => ({
      jwt: {
           secret_key: process.env.JWT_SECRET_KEY || 'AWDSRHYCSS15ADD4DF5LOPA457',
           // expiry_time: process.env.JWT_EXPIRY_TIME || '1h'
-     }
+     },
+     projectPath: process.env.PROJECT_PATH || 'http://localhost:3000',
 });

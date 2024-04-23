@@ -7,7 +7,6 @@ import mongoose from 'mongoose';
 @Global()
 @Module({
      imports: [
-          ConfigModule.forRoot(),
           MongooseModule.forRootAsync({
                inject: [ConfigService],
                useFactory: async (configService: ConfigService) => ({
