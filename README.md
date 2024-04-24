@@ -28,13 +28,13 @@ This project demonstrates the integration of MongoDB with NestJS using TypeScrip
 1. Clone the repository:
 
     ```
-    git clone <repository_url>
+    git clone https://github.com/dineshchauhan7711/nest-demo
     ```
 
 2. Navigate to the project directory:
 
     ```
-    cd project-directory
+    cd nest-demo
     ```
 
 3. Install dependencies:
