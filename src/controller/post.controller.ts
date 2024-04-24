@@ -1,5 +1,5 @@
 // Modules
-import { Controller, Get, Res, Req, Post, Body, Query, Delete } from '@nestjs/common'
+import { Controller, Get, Res, Req, Post, Body, Query, Delete, ValidationPipe } from '@nestjs/common'
 import { Request, Response } from 'express';
 
 // Services
@@ -23,9 +23,9 @@ export class PostController {
      /**
       * Get user posts
       */
-     @Get('/get-posts')
-     getPosts(@Req() req: Request, @Res() res: Response, @Query() query: GetPostDTO): Promise<any> {
-          return this.PostService.getPosts(req, res, query)
+     @Get('/get-user-posts')
+     getUserPosts(@Req() req: Request, @Res() res: Response, @Query() query: GetPostDTO): Promise<any> {
+          return this.PostService.getUserPosts(req, res, query)
      };
 
      /**
@@ -36,6 +36,12 @@ export class PostController {
           return this.PostService.deletePosts(req, res, query)
      };
 
-
+     /**
+      * Get all posts
+      */
+     @Get('/get-posts')
+     getPosts(@Req() req: Request, @Res() res: Response, @Query() query: GetPostDTO): Promise<any> {
+          return this.PostService.getPosts(req, res, query)
+     };
 
 }

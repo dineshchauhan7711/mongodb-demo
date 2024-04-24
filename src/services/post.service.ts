@@ -59,7 +59,7 @@ export class PostService {
      /**
       * Get user post
       */
-     async getPosts(req: Request, res: Response, query: any): Promise<any> {
+     async getUserPosts(req: Request, res: Response, query: any): Promise<any> {
           try {
                const { user: { id } } = req;
                const page = query.page ? Number(query.page) : 1;
@@ -118,5 +118,45 @@ export class PostService {
                console.log('error :>> ', error);
                return errorResponse(res, 9999)
           }
+     };
+
+     /**
+     * Get posts
+     */
+     async getPosts(req: Request, res: Response, query: any): Promise<any> {
+          try {
+               const page = query.page ? Number(query.page) : 1;
+               const limit = query.limit ? Number(query.limit) : 15;
+               const skip = (page - 1) * limit;
+
+               // Total Posts
+               const totalPosts = await this.PostModel.countDocuments({});
+
+               // Get user posts
+               const posts = await this.PostModel.find({})
+                    .populate({
+                         path: 'userId',
+                         select: 'firstName lastName profileImage'
+                    })
+                    .sort({ createdAt: -1 })
+                    .skip(skip)
+                    .limit(limit);
+
+               // Final response with pagination
+               const response: any = {
+                    pageInformation: {
+                         totalRecord: totalPosts,
+                         currentPage: page,
+                         lastPage: Math.ceil(totalPosts / limit),
+                         previousPage: page - 1,
+                    },
+                    pageData: posts
+               }
+               return successResponse(res, 2002, response, 200)
+          } catch (error) {
+               console.log('error :>> ', error);
+               return errorResponse(res, 9999)
+          }
      }
+
 }

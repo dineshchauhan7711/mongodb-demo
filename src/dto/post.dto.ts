@@ -1,12 +1,10 @@
-import { IsString, IsNumberString, IsOptional, IsMongoId, IsNotEmpty } from 'class-validator';
-
+import { IsString, IsNumberString, IsOptional, IsNotEmpty } from 'class-validator';
 
 
 /**
  * Create Post DTO
  */
 export class CreatePostDTO {
-
      /**
       * title
       */
@@ -21,7 +19,6 @@ export class CreatePostDTO {
      @IsOptional()
      description: string;
 };
-
 
 /**
  * Get Post DTO
@@ -42,7 +39,6 @@ export class GetPostDTO {
      limit: string;
 };
 
-
 /**
  * Delete Post DTO
  */
@@ -50,7 +46,8 @@ export class DeletePostDTO {
      /**
       * Post Id
       */
-     // @IsMongoId()
+     @IsString()
+     @IsNotEmpty()
      postId: string;
 
 };

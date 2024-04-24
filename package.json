@@ -1,7 +1,7 @@
 {
-  "name": "first",
+  "name": "mongodb-nest-js",
   "version": "0.0.1",
-  "description": "",
+  "description": "The simple MongoDB CRUD application using NestJS.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

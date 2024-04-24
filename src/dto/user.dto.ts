@@ -90,16 +90,19 @@ export class UpdateUserDTO {
     /**
      * firstName
      */
+    @IsString()
     firstName?: string;
 
     /**
      * lastName
      */
+    @IsString()
     lastName?: string;
 
     /**
      * new password
      */
+    @IsString()
     newPassword?: string;
 
     /**

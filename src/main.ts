@@ -6,7 +6,6 @@ import { ValidationExceptionFilter } from "./helper/response";
 import { ConfigService } from '@nestjs/config'
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as multer from 'multer';
-import 'dotenv/config';
 
 async function bootstrap() {
      const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -29,6 +28,7 @@ async function bootstrap() {
      // Define the public folder to serve static files
      app.useStaticAssets(resolve(__dirname, '../public'));
 
+     // Define the multer middleware
      app.use(multer().any());
 
      const port = configService.get<number>('port')
