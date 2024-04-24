@@ -1,4 +1,4 @@
-import { IsString, MinLength, IsNotEmpty,IsJWT,isJWT } from 'class-validator';
+import { IsString, IsNotEmpty, IsJWT } from 'class-validator';
 
 /**
  * Header DTO
