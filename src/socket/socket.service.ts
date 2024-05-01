@@ -50,7 +50,7 @@ export class SocketService
 
      async sendMessage(socket: CustomSocket, payload: any): Promise<any> {
           try {
-               let findSession = await this.ConversationModel.findOne({
+               let findConversation = await this.ConversationModel.findOne({
                     $or: [
                          {
                               senderId: socket.user.id,
@@ -62,8 +62,8 @@ export class SocketService
                          }
                     ]
                });
-               if (!findSession) {
-                    findSession = await this.ConversationModel.create({
+               if (!findConversation) {
+                    findConversation = await this.ConversationModel.create({
                          senderId: socket.user.id,
                          receiverId: payload.receiverId
                     })
@@ -72,7 +72,7 @@ export class SocketService
                // Create chat
                const newChat = await this.ChatModel.create({
                     senderId: socket.user.id,
-                    conversationId: findSession._id,
+                    conversationId: findConversation._id,
                     message: payload.message
                });
 

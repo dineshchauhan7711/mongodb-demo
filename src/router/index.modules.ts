@@ -3,6 +3,7 @@ import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 // Modules
 import { UserModule } from './user.module';
 import { PostModule } from './post.module';
+import { ChatModule } from "./chat.module";
 
 // //Middleware
 import { AuthMiddleware } from 'src/middleware/auth/auth';
@@ -11,7 +12,8 @@ import { JwtService } from "../helper/jwt";
 @Module({
      imports: [
           UserModule,
-          PostModule
+          PostModule,
+          ChatModule
      ],
      providers: [JwtService],
 })

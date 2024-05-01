@@ -21,6 +21,11 @@ const MESSAGES = {
      '2004': 'Please select post',
      '2005': 'Post not found',
 
+     // Chat
+     '3001': 'Get chat successfully',
+     '3002': 'Conversation not found',
+     '3003': 'Get chat users successfully',
+
      // Common
      '9000': 'Please Enter Valid data!',
      '9001': 'Not found',
