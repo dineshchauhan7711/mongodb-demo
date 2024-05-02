@@ -1,6 +1,6 @@
 # MongoDB and NestJS Project
 
-This project demonstrates the integration of MongoDB with NestJS using TypeScript. It provides a set of APIs for user management and post management.
+This project demonstrates the integration of MongoDB with NestJS using TypeScript. It provides a set of APIs for user management, post management and includes a chat feature for real-time communication.
 
 ## Features
 
@@ -17,11 +17,16 @@ This project demonstrates the integration of MongoDB with NestJS using TypeScrip
   - Get All Posts: Fetch all posts in the system.
   - Delete Post: Remove a post by its unique identifier.
 
+- Chat Feature:
+  - Send Message: Allows users to send messages to each other.
+  - Get User Chats: Retrieves chat history for a specific user.
+
 ## Prerequisites
 
 - Node.js
 - MongoDB
 - TypeScript
+- WebSocket
 
 ## Installation
 
