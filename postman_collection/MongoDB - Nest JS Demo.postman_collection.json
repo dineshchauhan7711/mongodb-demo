@@ -154,19 +154,17 @@
 								{
 									"key": "currentPassword",
 									"value": "WebSite@123!",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "newPassword",
 									"value": "WebSite@123!",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/pc/Desktop/pro_Img/avatar-3637425__340 - Copy.jpg"
+									"src": "/C:/Users/pc/Desktop/pro_Img/businessman-profile-picture-user-sign-260nw-302150789.jpg"
 								}
 							]
 						},
@@ -372,6 +370,89 @@
 									"key": "postId",
 									"value": "ObjectId(6627a6349a28e82c8a62c04f)",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Get conversation users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/get-chat-users?page=1&limit=15",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"get-chat-users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/get-chat?userId=6627a4e5b3383b6cd5b6743f&page=2&limit=2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"get-chat"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "6627a4e5b3383b6cd5b6743f"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "2"
 								}
 							]
 						}
